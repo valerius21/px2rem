@@ -3,6 +3,7 @@
 	"displayName": "px2rem",
 	"description": "convert pixel values to rem",
 	"version": "0.0.1",
+	"license": "MIT",
 	"engines": {
 		"vscode": "^1.52.0"
 	},
@@ -10,14 +11,14 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:px2rem.helloWorld"
+        "onCommand:px2rem.convertAndCopy"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "px2rem.helloWorld",
-				"title": "Hello World"
+				"command": "px2rem.convertAndCopy",
+				"title": "Insert converted PX value"
 			}
 		]
 	},

@@ -1,27 +1,34 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+const convert = (pixels: number, conversionRate: number = 16): number => pixels / conversionRate;
+
 export function activate(context: vscode.ExtensionContext) {
+	console.log('px2rem is now active!');
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "px2rem" is now active!');
+let convertAndInsert = vscode.commands.registerCommand('px2rem.convertAndCopy', async () => {
+	const inputValue = await vscode.window.showInputBox({ prompt: 'Bruh, what u wanna convert from? 🚀' });
+	let inputNumber: number | null = null;
+	try {
+		if (inputValue === undefined) {
+			throw new Error('please check ur input, bro');
+		}
+		inputNumber = +inputValue!.trim().replace('px', '');
+	} catch (err) {
+		vscode.window.showErrorMessage(err);
+		return;
+	}
+	if (`${inputNumber}` === 'NaN') {
+		vscode.window.showErrorMessage('??? 🤣');
+		return;
+	}
+	const remValue = convert(inputNumber!);
+	vscode.env.clipboard.writeText(`${remValue}rem`);
+	vscode.window.showInformationMessage(`Converted Value ${remValue}rem copied to clipboard. ⚡`);
+});
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('px2rem.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+	// let convertAndCopy;
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('bruuuh');
-	});
-
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(convertAndInsert);
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {}
